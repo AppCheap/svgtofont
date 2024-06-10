@@ -167,6 +167,12 @@ export function generateFlutterIcons(options: SvgToFontOptions = {}, unicodeObje
 
     // Create file <font-name>.dart
     outputFlutterFile(ICONS_PATH, options, unicodeObject);
+
+    // Copy file .ttf
+    // Create folder fonts
+    fs.mkdirpSync(path.join(options.dist, 'flutter', 'fonts'));
+    fs.copyFileSync(path.join(options.dist, `${options.fontName}.ttf`), path.join(options.dist, 'flutter', 'fonts', `${options.fontName}.ttf`));
+
 }
 
 function outputFlutterFilePubspec(options: SvgToFontOptions = {}) {
