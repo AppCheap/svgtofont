@@ -191,7 +191,7 @@ function outputFlutterFilePubspec(options: SvgToFontOptions = {}) {
 
 function outputFlutterFileIconData(options: SvgToFontOptions = {}) {
     const fontName = options.classNamePrefix || options.fontName
-    const fontFamily = toPascalCase(fontName);
+    const fontFamily = fontName;
     const className = toPascalCase(fontName) + 'IconData';
     const fontPackage = options.fontName + '_icons';
 
