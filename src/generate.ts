@@ -176,8 +176,8 @@ export function generateFlutterIcons(options: SvgToFontOptions = {}, unicodeObje
 }
 
 function outputFlutterFilePubspec(options: SvgToFontOptions = {}) {
-    const fontName = options.classNamePrefix || options.fontName
-    const outDistPath = path.join(options.dist, 'flutter', 'pubspec.yaml');
+    const fontName = options.classNamePrefix || options.fontName;
+    const outDistPath = path.join(options.dist, `${fontName}_icons`, 'pubspec.yaml');
     const pubspecFile = path.join(__dirname, 'flutter_icons', 'pubspec.yaml');
     let fileContent = fs.readFileSync(pubspecFile, 'utf-8');
     // Replace {{fontName}} with fontName
@@ -190,7 +190,8 @@ function outputFlutterFilePubspec(options: SvgToFontOptions = {}) {
 }
 
 function outputFlutterFileIconData(options: SvgToFontOptions = {}) {
-    const fontName = options.classNamePrefix || options.fontName
+    const fontName = options.classNamePrefix || options.fontName;
+    const outDistPath = path.join(options.dist, `${fontName}_icons`, 'lib', 'src', 'icon_data.dart')
     const fontFamily = fontName;
     const className = toPascalCase(fontName) + 'IconData';
     const fontPackage = options.fontName + '_icons';
@@ -209,11 +210,12 @@ function outputFlutterFileIconData(options: SvgToFontOptions = {}) {
     fileContent = fileContent.replace(/{{fontPackage}}/g, fontPackage);
 
     // Write file
-    fs.outputFileSync(path.join(options.dist, 'flutter', 'lib', 'src', 'icon_data.dart'), fileContent);
+    fs.outputFileSync(outDistPath, fileContent);
 }
 
 function outputFlutterFile(files: string[], options: SvgToFontOptions = {}, unicodeObject: Record<string, string>) {
-    const fontName = options.classNamePrefix || options.fontName
+    const fontName = options.classNamePrefix || options.fontName;
+    const outDistPath = path.join(options.dist, `${fontName}_icons`, 'lib', `${fontName}.dart`);
     const className = toPascalCase(fontName);
     const classFontData = toPascalCase(fontName) + 'IconData';
 
@@ -227,8 +229,6 @@ function outputFlutterFile(files: string[], options: SvgToFontOptions = {}, unic
     Object.keys(unicodeObject).forEach(iconName => {
         generatedOutput.push(`  '${iconName}': new ${classFontData}(0x${unicodeObject[iconName]}),\n`);
     });
-
-    const outDistPath = path.join(options.dist, 'flutter', `${fontName}.dart`);
 
     generatedOutput.push('};');
 
