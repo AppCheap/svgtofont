@@ -228,7 +228,9 @@ function outputFlutterFile(files: string[], options: SvgToFontOptions = {}, unic
     ];
 
     Object.keys(unicodeObject).forEach(iconName => {
-        generatedOutput.push(`  '${iconName}': new ${classFontData}(0x${unicodeObject[iconName]}),\n`);
+        const _code = unicodeObject[iconName];
+        let encodedCodes = _code.charCodeAt(0);
+        generatedOutput.push(`  '${iconName}': ${classFontData}(0x${encodedCodes.toString(16)}),\n`);
     });
 
     generatedOutput.push('};');
