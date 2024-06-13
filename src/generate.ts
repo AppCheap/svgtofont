@@ -158,6 +158,7 @@ function outputReactNativeFile(files: string[], options: SvgToFontOptions = {}, 
  * <font-name>.json
  */
 export function generateFlutterIcons(options: SvgToFontOptions = {}, unicodeObject: Record<string, string>) {
+    const fontName = options.classNamePrefix || options.fontName;
     const ICONS_PATH = filterSvgFiles(options.src);
     // Create file pubspec.yaml
     outputFlutterFilePubspec(options);
@@ -170,8 +171,8 @@ export function generateFlutterIcons(options: SvgToFontOptions = {}, unicodeObje
 
     // Copy file .ttf
     // Create folder fonts
-    fs.mkdirpSync(path.join(options.dist, 'flutter', 'fonts'));
-    fs.copyFileSync(path.join(options.dist, `${options.fontName}.ttf`), path.join(options.dist, 'flutter', 'fonts', `${options.fontName}.ttf`));
+    fs.mkdirpSync(path.join(options.dist, `${fontName}_icons`, 'fonts'));
+    fs.copyFileSync(path.join(options.dist, `${options.fontName}.ttf`), path.join(options.dist, `${fontName}_icons`, 'fonts', `${options.fontName}.ttf`));
 
 }
 
