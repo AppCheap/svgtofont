@@ -307,7 +307,7 @@ export function copyTemplate(inDir: string, outDir: string, { _opts, ...vars }: 
       if (removeFiles.length > 0) {
         await del([...removeFiles]);
       }
-      createdFiles = await Promise.all(createdFiles.map(async (file) => {
+      createdFiles = await Promise.all(createdFiles.map(async (file): Promise<string> => {
         if (!file.endsWith('.template')) {
           return file;
         }
@@ -318,9 +318,8 @@ export function copyTemplate(inDir: string, outDir: string, { _opts, ...vars }: 
       }));
       if (_opts.output) {
         const output = path.join(process.cwd(), _opts.output);
-        await Promise.all(createdFiles.map(async (file) => {
+        await Promise.all(createdFiles.map(async (file): Promise<void> => {
           await moveFile(file, path.join(output, path.basename(file)));
-          return null;
         }));
       }
       createdFiles.forEach(filePath => log.log(`${color.green('SUCCESS')} Created ${filePath} `));
